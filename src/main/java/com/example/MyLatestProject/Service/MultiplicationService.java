@@ -19,13 +19,13 @@ public class MultiplicationService
 	CalculatorRepository calrep;
 	
 	   Pageable pageable = PageRequest.of(0, 3);
-	
+	   
 	
 	public int mul(int i, int j)
 	{
 		Pageable pageable = PageRequest.of(0, 3);
 		Page<calculator> page=calrep.findAll(pageable);
-		
+		System.out.println("inside mul serviceeeeeeeeeeeeeeeee");
 		List<calculator>  callist=page.getContent();
 		//page.get
 		for(calculator cal:callist)
