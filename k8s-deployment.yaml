@@ -1,0 +1,104 @@
+# MySQL Persistent Volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mysql-data
+---
+# MySQL Persistent Volume Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# MySQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "world"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-storage
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+---
+# MySQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
+---
+# Spring Boot Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mylatestproject
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mylatestproject
+  template:
+    metadata:
+      labels:
+        app: mylatestproject
+    spec:
+      containers:
+      - name: mylatestproject
+        image: radhikamc/mylatestproject:latest
+        ports:
+        - containerPort: 8085
+---
+# Spring Boot Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mylatestproject-service
+spec:
+  type: NodePort
+  selector:
+    app: mylatestproject
+  ports:
+  - port: 8085
+    targetPort: 8085
+    nodePort: 30085
