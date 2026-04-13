@@ -10,7 +10,7 @@ logging:
     org.springframework: info
     com.example: debug
   file:
-    name: bugtrackingapi.log
+    name: Mylatestproject.log
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
@@ -27,7 +27,7 @@ management:
 # Database Configuration
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/world
+    url: jdbc:mysql://mysql-service:3306/world
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
