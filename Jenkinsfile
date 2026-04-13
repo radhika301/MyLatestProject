@@ -1,17 +1,5 @@
 pipeline {
     agent any
-    stages {
-        stage('Test') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-    }
-}
-
-
-/*pipeline {
-    agent any
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
@@ -62,4 +50,4 @@ pipeline {
             echo '❌ Deployment Failed!'
         }
     }
-}*/
+}
