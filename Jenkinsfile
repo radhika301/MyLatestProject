@@ -1,4 +1,16 @@
-pipeline {
+groovypipeline {
+    agent any
+    stages {
+        stage('Test') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}
+
+
+/*pipeline {
     agent any
 
     environment {
@@ -50,4 +62,4 @@ pipeline {
             echo '❌ Deployment Failed!'
         }
     }
-}
+}*/
